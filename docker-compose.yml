@@ -1,0 +1,29 @@
+version: "3"
+services:
+  mern:
+    container_name: mern
+    restart: always
+    build: .
+    ports:
+      - "5000:5000"
+    links:
+      - mongo
+    depends_on:
+      - mongo
+    environment:
+      - NODE_ENV=production
+      - WAIT_HOSTS=mongo:27017
+#    healthcheck:
+#      test: ["CMD", "curl", "-f", "http://localhost:5000/"]
+#    command: ["npm", "run", "prod"]
+  mongo:
+    container_name: mongo
+    image: mongo
+#    volumes:
+#    - ./data:/data/db
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=mernUser
+      - MONGO_INITDB_ROOT_PASSWORD=password
+      - MONGO_INITDB_DATABASE=mern

@@ -1,0 +1,59 @@
+{
+  "name": "playground",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server/server.js",
+  "scripts": {
+    "init-conc": "npm i -g concurrently && concurrently \"npm run server-install\" \"npm run client-install\"",
+    "init": "npm run server-install && npm run client-install",
+    "server-install": "npm i",
+    "client-install": "npm i --prefix client",
+    "build": "npm run build-server && npm run build-client",
+    "build-server": "rimraf dist/ && babel ./server --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./package-lock.json,./npm-debug.log,./client --copy-files",
+    "build-client": "npm run build --prefix client",
+    "start": "node dist/server.js",
+    "server": "babel-watch server/server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "production": "npm run start",
+    "prod": "npm run production",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+  },
+  "author": "J.T. Weaver",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "mongoose": "^5.4.0",
+    "await-to-js": "^2.1.1"
+  },
+  "devDependencies": {
+    "eslint": "5.6.0",
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "9.0.0",
+    "babel-plugin-syntax-object-rest-spread": "^6.13.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "babel-watch": "^2.0.7",
+    "eslint-config-rallycoding": "^3.2.0",
+    "rimraf": "^2.6.2",
+    "concurrently": "^4.1.0",
+    "nodemon": "^1.18.9"
+  },
+  "eslintConfig": {
+    "extends": "rallycoding",
+    "rules": {
+      "arrow-body-style": 0,
+      "max-len": [
+        "error",
+        140,
+        2,
+        {
+          "ignoreUrls": true,
+          "ignoreComments": false
+        }
+      ]
+    }
+  }
+}
